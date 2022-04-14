@@ -18,7 +18,7 @@ public class saveandload : MonoBehaviour
         SetSaveHealth((int)PlayerHealth.instance.healthSlider.value);
 
         PlayerMovement.instance.savepos();
-
+        PlayerPrefs.SetInt("firsttime", 1);
         Debug.Log(GetSaveHealth());
         
     }
@@ -42,8 +42,17 @@ public class saveandload : MonoBehaviour
         gamemanager.instance.IsNewGame = false;
         ScoreManager.score = GetSaveScore();
 
-        PlayerHealth.instance.healthSlider.value = GetSaveHealth();
-        PlayerHealth.instance.currentHealth = GetSaveHealth();
+        if (PlayerPrefs.GetInt("firsttime") == 1)
+        {
+            PlayerHealth.instance.healthSlider.value = GetSaveHealth();
+            PlayerHealth.instance.currentHealth = GetSaveHealth();
+        }
+        else
+        {
+
+            PlayerHealth.instance.healthSlider.value = PlayerHealth.instance.startingHealth;
+            PlayerHealth.instance.currentHealth = PlayerHealth.instance.startingHealth;
+        }
 
         PlayerMovement.instance.loadpos(getxAxis(), getyAxis(), getzAxis());
 
