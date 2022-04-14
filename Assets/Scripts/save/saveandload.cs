@@ -13,10 +13,14 @@ public class saveandload : MonoBehaviour
 
     public void SaveGame()
     {
+        Debug.Log("game saved");
         SetSaveScore(ScoreManager.score);
         SetSaveHealth((int)PlayerHealth.instance.healthSlider.value);
+
+        PlayerMovement.instance.savepos();
+
         Debug.Log(GetSaveHealth());
-        Debug.Log("game saved");
+        
     }
 
     public void NewGame()
@@ -40,6 +44,8 @@ public class saveandload : MonoBehaviour
 
         PlayerHealth.instance.healthSlider.value = GetSaveHealth();
         PlayerHealth.instance.currentHealth = GetSaveHealth();
+
+        PlayerMovement.instance.loadpos(getxAxis(), getyAxis(), getzAxis());
 
         gamemanager.instance.startCanvas.SetActive(false);
         gamemanager.instance.PlayCanvas.SetActive(true);
@@ -66,5 +72,33 @@ public class saveandload : MonoBehaviour
     public void SetSaveScore(int score)
     {
         PlayerPrefs.SetInt("PS", score);
+    }
+
+    public float getxAxis()
+    {
+        return PlayerPrefs.GetFloat("xa");
+    }
+
+    public void setxAxis(float x)
+    {
+        PlayerPrefs.SetFloat("xa", x);
+    }
+
+    public float getyAxis()
+    {
+        return PlayerPrefs.GetFloat("ya");
+    }
+    public void setyAxis(float y)
+    {
+        PlayerPrefs.SetFloat("ya", y);
+    }
+
+    public float getzAxis()
+    {
+        return PlayerPrefs.GetFloat("za");
+    }
+    public void setzAxis(float z)
+    {
+        PlayerPrefs.SetFloat("za", z);
     }
 }

@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Animator), typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
- 
+	public static PlayerMovement instance;
 	public float speed = 6f;
 
 	Vector3 movement;
@@ -12,15 +12,43 @@ public class PlayerMovement : MonoBehaviour
 	int floorMask;
 	float camRayLength = 100f;
 
+	[HideInInspector]
+	public float x, y, z;
+
 	void Awake()
 	{
+		instance = this;
+
 		floorMask = LayerMask.GetMask ("Floor");
 		animator = GetComponent<Animator> ();
 		playerRigidbody = GetComponent<Rigidbody> ();
 	}
 
+	public void savepos()
+	{
+		saveandload.instance.setxAxis(x);
+		saveandload.instance.setyAxis(y);
+		saveandload.instance.setzAxis(z);
+
+		//Debug.Log(saveandload.instance.getxAxis());
+		
+		//Debug.Log(saveandload.instance.getyAxis());
+		
+		//Debug.Log(saveandload.instance.getzAxis());
+		
+	}
+
+	public void loadpos(float x, float y, float z)
+	{
+		transform.position = new Vector3(x, y, z);
+	}
+
 	void FixedUpdate()
 	{
+		x = transform.position.x;
+		y = transform.position.y;
+		z = transform.position.z;
+
 		float h = Input.GetAxisRaw ("Horizontal");
 		float v = Input.GetAxisRaw ("Vertical");
 
